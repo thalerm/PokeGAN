@@ -32,7 +32,8 @@ def save_images(GAN, vec, filename):
 def main():
     os.makedirs("results/generated", exist_ok=True)
     os.makedirs("results/reconstructed", exist_ok=True)
-    os.makedirs("results/checkpoints", exist_ok=True)
+    os.makedirs("results/checkpoints_gen", exist_ok=True)
+    os.makedirs("results/checkpoints_dis", exist_ok=True)
 
     root = os.path.join("data")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -91,7 +92,11 @@ def main():
         if (i + 1) % 50 == 0:
             torch.save(
                 gan.generator.state_dict(),
-                os.path.join("results", "checkpoints", f"gen.{i:05d}.pt"))
+                os.path.join("results", "checkpoints_gen", f"gen.{i:05d}.pt"))
+            torch.save(
+                gan.discriminator_image.state_dict(),
+                os.path.join("results", "checkpoints_dis", f"dis.{i:05d}.pt"))
+               
         save_images(gan, test_noise,
             os.path.join("results", "generated", f"gen.{i:04d}.png"))
 
