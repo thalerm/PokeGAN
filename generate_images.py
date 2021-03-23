@@ -73,11 +73,14 @@ def main():
         batch_size=BATCH_SIZE,
         )
     gan.generator.load_state_dict(torch.load(os.path.join("results", "checkpoints", "gen.00499.pt"), map_location=torch.device('cpu')))
-    images = gan.generate_samples()
-    ims = tv.utils.make_grid(images, normalize=True)
-    plt.imshow(ims.numpy().transpose((1,2,0)))
-    plt.show()
-
+    save_images(gan, test_noise,
+            os.path.join("results", "generated", f"gen.{i:04d}.png"))
+	
+	#images = gan.generate_samples()
+    #ims = tv.utils.make_grid(images, normalize=True)
+    #plt.imshow(ims.numpy().transpose((1,2,0)))
+    #plt.show()
+	
 
 if __name__ == "__main__":
     main()
