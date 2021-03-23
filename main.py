@@ -18,7 +18,8 @@ from aegan import AEGAN
 
 BATCH_SIZE = 32
 LATENT_DIM = 16
-EPOCHS = 20000
+EPOCHS = 5000
+CHPT_FILE = "gen.16299.pt"
 
 def save_images(GAN, vec, filename):
     images = GAN.generate_samples(vec)
@@ -73,6 +74,8 @@ def main():
         device=device,
         batch_size=BATCH_SIZE,
         )
+    if CHPT_FILE:
+        gan.generator.load_state_dict(torch.load(os.path.join("results", "checkpoints", CHPT_FILE), map_location=torch.device('cpu')))
     start = time.time()
     for i in range(EPOCHS):
         while True:
