@@ -19,6 +19,7 @@ from aegan import AEGAN
 BATCH_SIZE = 32
 LATENT_DIM = 16
 EPOCHS = 20000
+CHPT_FILE = "gen.16299.pt"
 
 def save_images(GAN, vec, filename):
     images = GAN.generate_samples(vec)
@@ -72,15 +73,18 @@ def main():
         device=device,
         batch_size=BATCH_SIZE,
         )
-    gan.generator.load_state_dict(torch.load(os.path.join("results", "checkpoints", "gen.00499.pt"), map_location=torch.device('cpu')))
-    save_images(gan, test_noise,
+
+    
+    gan.generator.load_state_dict(torch.load(os.path.join("results", "checkpoints", CHPT_FILE), map_location=torch.device('cpu')))
+	save_images(gan, test_noise,
             os.path.join("results", "generated", f"gen.{i:04d}.png"))
-	
-	#images = gan.generate_samples()
+			
+    #images = gan.generate_samples(num=2)
     #ims = tv.utils.make_grid(images, normalize=True)
     #plt.imshow(ims.numpy().transpose((1,2,0)))
     #plt.show()
-	
+
+>>>>>>> 5023ef333ff65355a3da0b6664f0c4eff33d6a0e
 
 if __name__ == "__main__":
     main()
